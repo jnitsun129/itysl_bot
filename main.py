@@ -12,7 +12,7 @@ import time
 from datetime import date
 
 
-def client_create():
+def client_create() -> tweepy.Client:
     client = tweepy.Client(consumer_key=keys.API_KEY,
                            consumer_secret=keys.API_KEY_SECRET,
                            access_token=keys.ACCESS_TOKEN,
@@ -20,7 +20,7 @@ def client_create():
     return client
 
 
-def api():
+def api() -> tweepy.API:
     tweepy_auth = tweepy.OAuth1UserHandler(
         "{}".format(keys.API_KEY),
         "{}".format(keys.API_KEY_SECRET),
@@ -30,7 +30,7 @@ def api():
     return tweepy.API(tweepy_auth)
 
 
-def get_quote_data():
+def get_quote_data() -> str:
     driver = webdriver.Chrome()
     driver.get('https://ithinkyoushouldquote.me/')
     button = WebDriverWait(driver, 10).until(
@@ -49,7 +49,7 @@ def get_quote_data():
     return data
 
 
-def check_valid(html_source):
+def check_valid(html_source: str) -> str:
     soup = BeautifulSoup(html_source, 'html.parser')
     element = soup.find('ul', id='resultDiv')
 
@@ -77,7 +77,7 @@ def check_valid(html_source):
         return data
 
 
-def download_image(image_string):
+def download_image(image_string: str) -> None:
     folder_path = 'images'
 
     image_filename = os.path.join(folder_path, image_string.split('/')[-1])
@@ -88,7 +88,7 @@ def download_image(image_string):
         image_file.write(response.content)
 
 
-def check_file(data):
+def check_file(data: dict) -> bool:
     duplicate = False
     quote = data['quote']
     with open('quotes.txt', mode='r') as file:
@@ -102,18 +102,13 @@ def check_file(data):
     return duplicate
 
 
-def format_quote(data: dict):
+def format_quote(data: dict) -> str:
     tweet = f'{data["title"]}: {data["season_ep"]}\n\n{data["quote"]}\n\n#itysl'
     full = f'{date.today().strftime("%B %d, %Y")}\n\n{tweet}'
     return full
 
 
-def tweet(client: tweepy.Client, message):
-    client.create_tweet(text=message)
-    print("Tweeted Successfully")
-
-
-def run():
+def run() -> None:
     data = get_quote_data()
     message = format_quote(data)
     path_to_file = f'images/{data["image"]}'
