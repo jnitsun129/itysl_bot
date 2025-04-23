@@ -5,6 +5,7 @@ import requests
 from bs4 import BeautifulSoup
 import os
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -31,7 +32,9 @@ def api() -> tweepy.API:
 
 
 def get_quote_data() -> str:
-    driver = webdriver.Chrome()
+    options = Options()
+    options.add_argument("--headless")  # or "--headless=new" for latest Chrome
+    driver = webdriver.Chrome(options=options)
     driver.get('https://ithinkyoushouldquote.me/')
     button = WebDriverWait(driver, 10).until(
         EC.presence_of_element_located((By.ID, "randomQ")))
