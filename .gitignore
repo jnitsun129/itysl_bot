@@ -1,3 +1,5 @@
 images/
+quotes.txt
+.python-version
 .vscode
 __pycache__/

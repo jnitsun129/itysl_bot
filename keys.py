@@ -1,6 +1,5 @@
 import os
 
-
 CLIENT_ID = os.getenv('TWITTER_CLIENT_ID')
 
 CLIENT_SECRET = os.getenv("TWITTER_CLIENT_SECRET")
@@ -14,3 +13,5 @@ API_KEY = os.getenv("TWITTER_API_KEY")
 API_KEY_SECRET = os.getenv("TWITTER_API_KEY_SECRET")
 
 BEARER_TOKEN = os.getenv("TWITTER_BEARER_TOKEN")
+
+REDIS_URL = os.getenv("REDIS_URL")
